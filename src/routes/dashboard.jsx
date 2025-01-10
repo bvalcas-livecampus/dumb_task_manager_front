@@ -12,10 +12,13 @@ import {
   TextField,
   Button,
   Alert,
-  Checkbox
+  Checkbox,
+  Stack
 } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({
     title: '',
@@ -68,13 +71,17 @@ export default function Dashboard() {
     }
   };
 
-  const handleToggleComplete = async (taskId, currentStatus) => {
+  const handleToggleComplete = async (taskId, currentStatus, task) => {
     setError('');
     try {
       const response = await fetcher({
         url: `/tasks/update?taskId=${taskId}`,
         method: 'POST',
-        params: { completed: currentStatus ? 'on' : undefined },
+        params: {
+          title: task.title,
+          description: task.description,
+          completed: currentStatus ? 'on' : undefined,
+        },
       });
       
       if (response) {
@@ -84,6 +91,10 @@ export default function Dashboard() {
       setError('Failed to update task');
       console.error('Error updating task:', error);
     }
+  };
+
+  const handleEditTask = (taskId) => {
+    navigate(`/tasks/${taskId}/edit`);
   };
 
   return (
@@ -102,11 +113,20 @@ export default function Dashboard() {
                   key={task.id}
                   divider
                   secondaryAction={
-                    <Checkbox
-                      edge="end"
-                      checked={Boolean(task.completed)}
-                      onChange={(event) => handleToggleComplete(task.id, event.target.checked)}
-                    />
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => handleEditTask(task.id)}
+                      >
+                        Edit
+                      </Button>
+                      <Checkbox
+                        edge="end"
+                        checked={Boolean(task.completed)}
+                        onChange={(event) => handleToggleComplete(task.id, event.target.checked, task)}
+                      />
+                    </Stack>
                   }
                 >
                   <ListItemText

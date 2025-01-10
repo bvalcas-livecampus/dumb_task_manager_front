@@ -8,6 +8,7 @@ import ProtectedRoutes from "./routes/ProtectedRoutes";
 import UnprotectedRoutes from "./routes/UnprotectedRoutes";
 import Register from "./routes/register";
 import Header from "./component/header/header";
+import EditTask from "./routes/editTasks";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/admin" element={<Admin />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/tasks/:taskId/edit" element={<EditTask />} />
           </Route>
         </Routes>
       </Header>
