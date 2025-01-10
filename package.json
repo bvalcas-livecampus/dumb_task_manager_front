@@ -16,8 +16,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "jest test",
+    "test:unit": "jest __tests__/unit-tests/",
+    "test:functionnal": "jest __tests__/functionnal-tests/",
+    "test:e2e": "cypress run",
+    "eject": "react-scripts eject",
+    "prepare": "husky",
+    "cypress:open": "cypress open",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -36,5 +43,25 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@eslint/js": "^9.17.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "14.2.1",
+    "@testing-library/react-hooks": "^8.0.1",
+    "babel-jest": "^29.7.0",
+    "cypress": "^13.17.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-cypress": "^4.1.0",
+    "eslint-plugin-react": "^7.37.3",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.5.1",
+    "jest-environment-jsdom": "^27.5.1",
+    "react-test-renderer": "18.2.0"
   }
 }

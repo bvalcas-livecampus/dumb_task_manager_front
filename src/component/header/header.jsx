@@ -3,6 +3,7 @@ import { useAuth } from '../../auth/AuthContext';
 import { useNavigate } from 'react-router';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { useTheme } from '../../theme/ThemeContext';
+import PropTypes from 'prop-types';
 
 const Header = ({ children }) => {
   const { user, logout } = useAuth();
@@ -50,6 +51,10 @@ const Header = ({ children }) => {
       </Box>
     </Box>
   );
+};
+
+Header.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 export default Header;
