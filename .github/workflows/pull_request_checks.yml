@@ -1,0 +1,28 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - main  # Change this to the branch you want to protect
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22'  # Specify the Node.js version you need
+
+    - name: Install dependencies
+      run: yarn
+
+    - name: Run tests
+      run: npm test
+
+    - name: Lint code
+      run: npm run lint 
