@@ -8,7 +8,8 @@ import {
   Container, 
   Paper,
   IconButton,
-  InputAdornment
+  InputAdornment,
+  Alert
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../auth/AuthContext';
@@ -21,6 +22,7 @@ export default function Login() {
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,16 +38,16 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
       const response = await login(formData.username, formData.password);
-      if (response) {
+      if (response.success) {
         navigate('/dashboard');
       } else {
-        console.error('Login failed');
+        setError(response.message);
       }
     } catch (error) {
-      console.error('Login failed:', error);
-      // You might want to add error handling here, like showing an error message
+      setError(error.message || 'An error occurred during login');
     }
   };
 
@@ -63,6 +65,11 @@ export default function Login() {
           <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
             Sign In
           </Typography>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
           <Box component="form" onSubmit={handleSubmit}>
             <TextField
               margin="normal"

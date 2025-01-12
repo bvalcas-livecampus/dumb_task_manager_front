@@ -1,6 +1,9 @@
 import { Navigate } from 'react-router';
-
-export default function RedirectToLogin() {
-  return <Navigate to="/login" replace />;
+import PropTypes from 'prop-types';
+export default function RedirectTo({ path }) {
+  return <Navigate to={path} replace />;
 }
 
+RedirectTo.propTypes = {
+  path: PropTypes.string.isRequired
+};

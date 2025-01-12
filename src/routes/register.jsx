@@ -16,11 +16,13 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
 
     try {
       const response = await fetcher({
@@ -28,13 +30,16 @@ export default function Register() {
         method: 'POST',
         params: { username, password, email }
       });
-      if (response) {
-        navigate('/login');
+      if (response.code === 200) {
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
       } else {
-        setError('Registration failed. Please try again.');
+        setError(response.message || 'Registration failed. Please try again.');
       }
     } catch (error) {
-      setError('Registration failed. Please try again.');
+      setError(error.message || 'Registration failed. Please try again.');
       console.error('Registration error:', error);
     }
   };
@@ -54,6 +59,7 @@ export default function Register() {
             Register
           </Typography>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {success && <Alert severity="success" sx={{ mb: 2 }}>Registration successful! Redirecting to login...</Alert>}
           <Box component="form" onSubmit={handleSubmit}>
             <TextField
               margin="normal"

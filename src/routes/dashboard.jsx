@@ -74,7 +74,7 @@ export default function Dashboard() {
 
     try {
       const response = await fetcher({
-        url: '/tasks',
+        url: userId ? `/tasks/user/${userId}` : '/tasks',
         method: 'POST',
         params: {
             title: newTask.title,
