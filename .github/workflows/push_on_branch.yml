@@ -26,7 +26,7 @@ jobs:
       run: yarn
 
     - name: Run tests
-      run: npm run test:functionnal
+      run: npm test
 
-    #- name: Lint code
-    #  run: npm run lint 
+    - name: Lint code
+      run: npm run lint 
