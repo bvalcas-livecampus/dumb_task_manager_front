@@ -59,7 +59,7 @@ describe('AuthContext', () => {
 
     await act(async () => {
       const success = await result.current.login('testuser', 'wrongpassword');
-      expect(success).toBeFalsy();
+      expect(success.success).toBeFalsy();
     });
 
     expect(result.current.user).toBeNull();
