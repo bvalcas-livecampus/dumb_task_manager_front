@@ -28,11 +28,12 @@ export const fetcher = async ({
   try {
     const response = await fetch(`${BASE_URL}${url}${queryParams}`, requestOptions);
     
+    const json = await response.json();
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw { code: response.status, message: json.message || 'An error occurred' };
     }
     
-    return await response.json();
+    return json;
   } catch (error) {
     console.error('API call failed:', error);
     throw error;

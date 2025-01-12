@@ -39,10 +39,10 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       localStorage.setItem('user', JSON.stringify(userData.data));
       localStorage.setItem('isAuthenticated', 'true');
-      return true;
+      return { success: true, message: 'Login successful' };
     } catch (error) {
       console.error('Login failed:', error);
-      return false;
+      return { success: false, message: error.message || 'Login failed' };
     }
   };
 
