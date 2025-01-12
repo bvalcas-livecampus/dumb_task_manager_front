@@ -18,6 +18,8 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetcher } from '../api/index';
+import { useNavigate } from 'react-router';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function Admin() {
   const [users, setUsers] = useState([]);
@@ -25,6 +27,7 @@ export default function Admin() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
@@ -91,6 +94,10 @@ export default function Admin() {
     }
   };
 
+  const handleViewDashboard = (userId) => {
+    navigate(`/dashboard/user/${userId}`);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -129,13 +136,23 @@ export default function Admin() {
                   key={user.id}
                   divider
                   secondaryAction={
-                    <IconButton 
-                      edge="end" 
-                      aria-label="delete"
-                      onClick={() => openDeleteDialog(user)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    <Box>
+                      <IconButton 
+                        edge="end" 
+                        aria-label="view dashboard"
+                        onClick={() => handleViewDashboard(user.id)}
+                        sx={{ mr: 1 }}
+                      >
+                        <VisibilityIcon />
+                      </IconButton>
+                      <IconButton 
+                        edge="end" 
+                        aria-label="delete"
+                        onClick={() => openDeleteDialog(user)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
                   }
                 >
                   <ListItemText

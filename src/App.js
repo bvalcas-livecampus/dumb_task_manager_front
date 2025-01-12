@@ -22,7 +22,9 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/admin" element={<Admin />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/user/:userId" element={<Dashboard />} />
             <Route path="/tasks/:taskId/edit" element={<EditTask />} />
+            <Route path="/tasks/:taskId/edit/:userId" element={<EditTask />} />
           </Route>
         </Routes>
       </Header>
