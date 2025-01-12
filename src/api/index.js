@@ -33,7 +33,7 @@ export const fetcher = async ({
       throw { code: response.status, message: json.message || 'An error occurred' };
     }
     
-    return json;
+    return { code: response.status, message: json.message, data: json.data };
   } catch (error) {
     console.error('API call failed:', error);
     throw error;
