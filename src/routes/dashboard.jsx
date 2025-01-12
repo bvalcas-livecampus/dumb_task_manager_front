@@ -15,10 +15,11 @@ import {
   Checkbox,
   Stack
 } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { userId } = useParams();
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({
     title: '',
@@ -26,15 +27,22 @@ export default function Dashboard() {
     completion: false
   });
   const [error, setError] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchUsername();
+    }
+  }, [userId]);
 
   const fetchTasks = async () => {
     try {
       const response = await fetcher({
-        url: '/tasks',
+        url: userId ? `/tasks/user/${userId}` : '/tasks',
         method: 'GET'
       });
       if (response?.data) {
@@ -43,6 +51,20 @@ export default function Dashboard() {
     } catch (error) {
       setError('Failed to fetch tasks');
       console.error('Error fetching tasks:', error);
+    }
+  };
+
+  const fetchUsername = async () => {
+    try {
+      const response = await fetcher({
+        url: `/user/${userId}`,
+        method: 'GET'
+      });
+      if (response?.data) {
+        setUsername(response.data.username);
+      }
+    } catch (error) {
+      console.error('Error fetching username:', error);
     }
   };
 
@@ -94,7 +116,7 @@ export default function Dashboard() {
   };
 
   const handleEditTask = (taskId) => {
-    navigate(`/tasks/${taskId}/edit`);
+    navigate(`/tasks/${taskId}/edit/${userId ? `${userId}` : ''}`);
   };
 
   return (
@@ -104,7 +126,7 @@ export default function Dashboard() {
         <Grid item xs={12} md={8}>
           <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>
-              Tasks
+              {userId ? `${username}'s Tasks` : 'Tasks'}
             </Typography>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
             <List>

@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 
 export default function EditTask() {
-  const { taskId } = useParams();
+  const { taskId, userId } = useParams();
   const navigate = useNavigate();
   const [task, setTask] = useState({
     title: '',
@@ -28,8 +28,11 @@ export default function EditTask() {
 
   const fetchTask = async () => {
     try {
+      const url = userId 
+        ? `/tasks/${taskId}/user/${userId}` 
+        : `/tasks/${taskId}`;
       const response = await fetcher({
-        url: `/tasks/${taskId}`,
+        url,
         method: 'GET'
       });
       if (response?.data) {
@@ -61,7 +64,7 @@ export default function EditTask() {
       });
       
       if (response) {
-        navigate('/dashboard');
+        navigate(-1);
       }
     } catch (error) {
       setError('Failed to update task');
